@@ -1,5 +1,6 @@
 # Secrets — never commit
 service_account.json
+service_account_2.json
 .env
 *.pem
 secrets.toml

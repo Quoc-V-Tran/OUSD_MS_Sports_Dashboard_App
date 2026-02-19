@@ -28,7 +28,7 @@ Follow these steps to get your OAL dashboard live and share the link with the co
    git branch -M main
    git push -u origin main
    ```
-   - **Important:** Do **not** add `service_account.json` to git. It’s in `.gitignore`, so it won’t be pushed. Your credentials stay only on your computer.
+   - **Important:** Do **not** add `service_account_2.json` to git. It’s in `.gitignore`, so it won’t be pushed. Your credentials stay only on your computer.
 
 ---
 
@@ -62,7 +62,7 @@ The app needs your Google credentials to read the roster folder. You’ll paste 
 3. You’ll see a text box for **Secrets**. Use **one** of these two formats.
 
    **Option A — Paste JSON (easiest)**  
-   In the Secrets box, type the key, then paste your **entire** `service_account.json` on one line (or as valid JSON) inside triple quotes:
+   In the Secrets box, type the key, then paste your **entire** `service_account_2.json` (or any service account JSON) on one line (or as valid JSON) inside triple quotes:
 
    ```toml
    gcp_service_account = '''
@@ -70,7 +70,7 @@ The app needs your Google credentials to read the roster folder. You’ll paste 
    '''
    ```
 
-   - Open your local `service_account.json`, copy the **whole** contents (one line is fine).
+   - Open your local `service_account_2.json`, copy the **whole** contents (one line is fine).
    - Replace newlines inside `private_key` with `\n` (backslash-n) so it’s one line, or keep the JSON valid.
    - Paste that between the `'''` quotes. The app accepts either a JSON string or a TOML object.
 
@@ -126,7 +126,7 @@ The app needs your Google credentials to read the roster folder. You’ll paste 
 
 ## Summary checklist
 
-- [ ] Code pushed to GitHub (no `service_account.json` in the repo)
+- [ ] Code pushed to GitHub (no `service_account_2.json` in the repo)
 - [ ] Signed in at share.streamlit.io with GitHub
 - [ ] New app created: your repo, branch `main`, main file `app.py`
 - [ ] Secrets added: `gcp_service_account` with your service account JSON or TOML

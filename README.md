@@ -22,7 +22,7 @@ MVP dashboard for district-wide athletics: rosters, participation, eligibility, 
    ```
 
 3. **Add Google credentials** (do not commit this file):
-   - Place your Google Cloud service account JSON key in the project root as `service_account.json`.
+   - Place your Google Cloud service account JSON key in the project root as `service_account_2.json`.
    - The service account must have **Drive read** and **Sheets read** access to the OUSD roster folder.
 
 4. **Start the app:**
@@ -35,7 +35,7 @@ MVP dashboard for district-wide athletics: rosters, participation, eligibility, 
 
 ## Deploy to Streamlit Community Cloud (MVP share with commissioner)
 
-1. **Push this repo to GitHub** (ensure `service_account.json` is not committed — it’s in `.gitignore`).
+1. **Push this repo to GitHub** (ensure `service_account_2.json` is not committed — it’s in `.gitignore`).
 
 2. **Go to [share.streamlit.io](https://share.streamlit.io)** and sign in with GitHub.
 
@@ -43,7 +43,7 @@ MVP dashboard for district-wide athletics: rosters, participation, eligibility, 
 
 4. **Add secrets** so the app can read Google Drive/Sheets:
    - In the app’s **Settings → Secrets**, add a key `gcp_service_account` with the same structure as your service account JSON (e.g. `type`, `project_id`, `private_key_id`, `private_key`, `client_email`, etc.). You can paste the JSON as TOML or use the [Secrets management](https://docs.streamlit.io/streamlit-community-cloud/deploy-your-app/secrets-management) format.
-   - The app uses **either** a local `service_account.json` file **or** `st.secrets["gcp_service_account"]`, so the same repo works locally and on Cloud.
+   - The app uses **either** a local `service_account_2.json` file **or** `st.secrets["gcp_service_account"]`, so the same repo works locally and on Cloud.
 
 5. **Deploy.** After the first run, the commissioner can open the app URL, click **Run Deep Scan**, and use the dashboard.
 
@@ -55,7 +55,7 @@ MVP dashboard for district-wide athletics: rosters, participation, eligibility, 
 |--------------------|--------|
 | `app.py`           | Streamlit app (single file). |
 | `requirements.txt` | Python dependencies. |
-| `service_account.json` | **Local only** — Google service account key; do not commit. |
+| `service_account_2.json` | **Local only** — Google service account key; do not commit. |
 | `.gitignore`       | Excludes secrets and Python/IDE artifacts. |
 
 ---

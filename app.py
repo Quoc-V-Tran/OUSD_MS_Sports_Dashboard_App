@@ -566,7 +566,7 @@ A working internal dashboard was built to provide district-wide visibility and e
 - Site spot-check drilldowns
 - Data quality “Flags” tab (missing GPA, missing gender, incomplete physicals)
 
-*Unbilled pilot effort completed:* ~7 hours (4:00pm–11:00pm)  
+**Value Created:** Automated a manual reporting process that previously took 17 school sites X hours per week.  
 *Standard consultant rate for funded work:* $100/hour
 
 ---
