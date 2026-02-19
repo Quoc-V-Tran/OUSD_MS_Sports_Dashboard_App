@@ -15,7 +15,7 @@ from googleapiclient.discovery import build
 # Config & Normalization Helpers
 # ---------------------------------------------------------------------------
 FOLDER_ID = "18B2JDMzmEqmeAk8T2vwswX5T-koYUMQV"
-SERVICE_ACCOUNT_FILE = "service_account.json"
+SERVICE_ACCOUNT_FILE = "service_account_2.json"
 # For Streamlit Cloud: set gcp_service_account in Secrets to the service account dict (no file needed)
 HEADER_SEARCH_MAX_ROWS = 15
 MAX_ROWS_PER_SHEET = 800
@@ -224,7 +224,7 @@ def _parse_json_with_private_key_newlines(s: str):
     return json.loads(new_s)
 
 def _get_creds():
-    """Use Streamlit secrets if set (deploy), else local service_account.json (local run)."""
+    """Use Streamlit secrets if set (deploy), else local service_account_2.json (local run)."""
     scopes = ["https://www.googleapis.com/auth/drive.readonly", "https://www.googleapis.com/auth/spreadsheets.readonly"]
 
     # 1) Try Streamlit Secrets (Cloud deploy)
@@ -263,7 +263,7 @@ def _get_creds():
         raise FileNotFoundError(
             "No credentials found. In Streamlit Cloud → Settings → Secrets, add a key named exactly: gcp_service_account. "
             f"Current secret keys: {keys if keys else '(none)'}. "
-            "Value: paste your full service_account.json content as JSON, or use a [gcp_service_account] section with type, project_id, private_key, client_email, etc."
+            "Value: paste your full service_account_2.json content as JSON, or use a [gcp_service_account] section with type, project_id, private_key, client_email, etc."
         )
 
     # 2) Local: use file
@@ -271,7 +271,7 @@ def _get_creds():
         return Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=scopes)
     except FileNotFoundError:
         raise FileNotFoundError(
-            "No credentials found. Add service_account.json locally or set gcp_service_account in Streamlit Secrets (Settings → Secrets)."
+            "No credentials found. Add service_account_2.json locally or set gcp_service_account in Streamlit Secrets (Settings → Secrets)."
         )
 
 @st.cache_data(ttl=600)
@@ -518,7 +518,7 @@ if df is not None:
 *District-Wide Eligibility + Compliance + Retention Metrics (17 Middle Schools)*
 
 - **Requestor / Sponsor:** OAL Middle School Athletic Commissioner  
-- **Vendor:** L and Q Consultants (Quoc Tran)  
+- **Vendor:** L and Q Company (Quoc Tran)  
 - **Schools Covered:** 17 OUSD middle schools (OAL)  
 
 **Data Source(s):**
@@ -544,7 +544,7 @@ This project supports OUSD athletics by improving district visibility into parti
 
 ### 2) Background: Work Completed (No-Cost Pilot)
 
-To validate feasibility and deliver immediate value, L and Q Consultants completed an initial build at no cost as a preliminary assessment.
+To validate feasibility and deliver immediate value, L and Q Company completed an initial build at no cost as a preliminary assessment.
 
 **A. District-wide ETL from legacy Google Sheets (already completed)**
 - Automated extraction from a shared Google Drive folder containing roster spreadsheets using Google Drive + Google Sheets APIs
@@ -636,7 +636,7 @@ A working internal dashboard was built to provide district-wide visibility and e
 
 ### 8) Requested Action
 
-Approve funding to initiate a consultant services engagement with L and Q Consultants to productionize the existing district-wide dashboard and integrate the commissioner’s Command Center 2026 compliance and retention metrics for reporting across 17 middle schools.
+Approve funding to initiate a consultant services engagement with L and Q Company to productionize the existing district-wide dashboard and integrate the commissioner’s Command Center 2026 compliance and retention metrics for reporting across 17 middle schools.
 """)
 
 else:
