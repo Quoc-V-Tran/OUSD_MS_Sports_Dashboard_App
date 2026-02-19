@@ -116,10 +116,11 @@ The app needs your Google credentials to read the roster folder. You’ll paste 
 
 | Problem | What to do |
 |--------|------------|
-| App shows “No credentials found” or similar | In Streamlit Cloud → app → Settings → Secrets, add `gcp_service_account` (Option A or B above). Save and wait for redeploy. |
+| App shows “No credentials found” or “Current secret keys: (none)” | Secrets didn’t load. In **Settings → Secrets**, the key must be **exactly** `gcp_service_account` (all lowercase, no spaces). Use Option B (TOML section) if Option A gives parsing errors. Click **Save** and wait for the app to redeploy. |
+| App shows “Current secret keys: […]” but not `gcp_service_account` | You have other keys but not the right one. Add a **new** key named exactly `gcp_service_account` (copy-paste the name to avoid typos). |
+| “Secrets key 'gcp_service_account' is set but invalid” | The value is wrong. For JSON: must be one valid JSON object (escape quotes inside or use one line). For TOML: must include `type`, `project_id`, `private_key`, `client_email` at minimum. Fix the value and Save. |
 | “Scan failed” or API error | Confirm the service account has **Drive** and **Sheets** access to the OUSD roster folder. Check that the folder ID in `app.py` is correct. |
 | App won’t deploy / build error | Check that `requirements.txt` is in the repo and that the main file path is exactly `app.py`. |
-| Secrets not loading | Key must be exactly `gcp_service_account`. No typos. For JSON-in-TOML (Option A), the value must be valid JSON between the triple quotes. |
 
 ---
 

@@ -203,13 +203,41 @@ def parse_sheet_values(all_values, school_name: str, tab_name: str):
 def _get_creds():
     """Use Streamlit secrets if set (deploy), else local service_account.json (local run)."""
     scopes = ["https://www.googleapis.com/auth/drive.readonly", "https://www.googleapis.com/auth/spreadsheets.readonly"]
-    try:
-        if hasattr(st, "secrets") and st.secrets.get("gcp_service_account"):
-            raw = st.secrets["gcp_service_account"]
-            info = json.loads(raw) if isinstance(raw, str) else dict(raw)
-            return Credentials.from_service_account_info(info, scopes=scopes)
-    except Exception:
-        pass
+
+    # 1) Try Streamlit Secrets (Cloud deploy)
+    if hasattr(st, "secrets") and st.secrets:
+        raw = None
+        for key in ("gcp_service_account", "GCP_SERVICE_ACCOUNT"):
+            try:
+                raw = st.secrets.get(key)
+                if raw is not None:
+                    break
+            except Exception:
+                continue
+        if raw is not None:
+            try:
+                if isinstance(raw, str):
+                    info = json.loads(raw)
+                else:
+                    info = json.loads(json.dumps(raw))  # normalize dict-like to plain dict
+                return Credentials.from_service_account_info(info, scopes=scopes)
+            except Exception as e:
+                raise RuntimeError(
+                    f"Secrets key 'gcp_service_account' is set but invalid: {e}. "
+                    "Check that the value is valid JSON or TOML with type, project_id, private_key_id, private_key, client_email."
+                ) from e
+        # Secrets exist but key missing — likely Cloud with wrong key name
+        try:
+            keys = list(st.secrets.keys()) if hasattr(st.secrets, "keys") else []
+        except Exception:
+            keys = []
+        raise FileNotFoundError(
+            "No credentials found. In Streamlit Cloud → Settings → Secrets, add a key named exactly: gcp_service_account. "
+            f"Current secret keys: {keys if keys else '(none)'}. "
+            "Value: paste your full service_account.json content as JSON, or use a [gcp_service_account] section with type, project_id, private_key, client_email, etc."
+        )
+
+    # 2) Local: use file
     try:
         return Credentials.from_service_account_file(SERVICE_ACCOUNT_FILE, scopes=scopes)
     except FileNotFoundError:
