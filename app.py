@@ -200,6 +200,29 @@ def parse_sheet_values(all_values, school_name: str, tab_name: str):
             })
     return records
 
+def _parse_json_with_private_key_newlines(s: str):
+    """Parse JSON when 'private_key' value contains literal newlines (invalid in strict JSON)."""
+    key = '"private_key"'
+    i = s.find(key)
+    if i == -1:
+        raise json.JSONDecodeError("No 'private_key' key found", s, 0)
+    i = s.find('"', i + len(key) + 1)  # skip to value opening quote
+    if i == -1:
+        raise json.JSONDecodeError("Malformed private_key", s, 0)
+    start = i + 1  # start of value content
+    end = start
+    while end < len(s):
+        if s[end] == "\\" and end + 1 < len(s):
+            end += 2
+            continue
+        if s[end] == '"':
+            break
+        end += 1
+    value = s[start:end]
+    fixed = value.replace("\r", "\\r").replace("\n", "\\n").replace("\t", "\\t")
+    new_s = s[:start] + fixed + s[end:]
+    return json.loads(new_s)
+
 def _get_creds():
     """Use Streamlit secrets if set (deploy), else local service_account.json (local run)."""
     scopes = ["https://www.googleapis.com/auth/drive.readonly", "https://www.googleapis.com/auth/spreadsheets.readonly"]
@@ -217,7 +240,13 @@ def _get_creds():
         if raw is not None:
             try:
                 if isinstance(raw, str):
-                    info = json.loads(raw)
+                    try:
+                        info = json.loads(raw)
+                    except json.JSONDecodeError as je:
+                        if "control character" in str(je).lower() or "line" in str(je).lower():
+                            info = _parse_json_with_private_key_newlines(raw)
+                        else:
+                            raise
                 else:
                     info = json.loads(json.dumps(raw))  # normalize dict-like to plain dict
                 return Credentials.from_service_account_info(info, scopes=scopes)
