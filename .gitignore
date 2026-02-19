@@ -1,0 +1,23 @@
+# Secrets — never commit
+service_account.json
+.env
+*.pem
+secrets.toml
+
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+.Python
+venv/
+.venv/
+env/
+
+# IDE / OS
+.idea/
+.DS_Store
+*.swp
+*.swo
+
+# Streamlit
+.streamlit/secrets.toml
